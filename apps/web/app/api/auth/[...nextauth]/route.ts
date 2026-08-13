@@ -19,10 +19,26 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken as string;
-      session.githubId    = token.githubId as string;
-      return session;
-    },
+  session.accessToken = token.accessToken as string;
+  session.githubId    = token.githubId as string;
+  session.username    = token.username as string;
+  session.portfolioId = token.portfolioId as string;
+
+  // If portfolioId is missing from token, fetch it from the API
+  if (!session.portfolioId && session.githubId) {
+    try {
+      const res = await fetch(
+        `${process.env.API_URL ?? 'http://localhost:3001'}/api/portfolio/by-github/${session.githubId}`
+      );
+      const data = await res.json();
+      session.portfolioId = data.portfolioId;
+    } catch (err) {
+      console.error('Failed to fetch portfolioId:', err);
+    }
+  }
+
+  return session;
+},
   },
   pages: { signIn: '/login', error: '/login' },
   session: { strategy: 'jwt' },
