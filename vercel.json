@@ -1,6 +1,17 @@
 {
   "version": 2,
+  "buildCommand": "cd ../.. && pnpm install && pnpm build",
+  "installCommand": "pnpm install",
   "builds": [
-    { "src": "apps/web/package.json", "use": "@vercel/next" }
-  ]
+    {
+      "src": "apps/web/package.json",
+      "use": "@vercel/next",
+      "config": {
+        "zeroConfig": true
+      }
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@next_public_api_url"
+  }
 }
