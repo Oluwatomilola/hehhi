@@ -1,17 +1,11 @@
 {
   "version": 2,
-  "buildCommand": "cd ../.. && pnpm install && pnpm build",
-  "installCommand": "pnpm install",
+  "buildCommand": "pnpm install --frozen-lockfile && pnpm --filter=web build",
+  "installCommand": "pnpm install --frozen-lockfile",
   "builds": [
     {
       "src": "apps/web/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "zeroConfig": true
-      }
+      "use": "@vercel/next"
     }
-  ],
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@next_public_api_url"
-  }
+  ]
 }
