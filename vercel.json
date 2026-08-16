@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install --frozen-lockfile && pnpm --filter=web build",
-  "installCommand": "pnpm install --frozen-lockfile",
+  "installCommand": "pnpm install --workspace-root --frozen-lockfile",
+  "buildCommand": "pnpm --filter web run build",
   "builds": [
-    {
-      "src": "apps/web/package.json",
-      "use": "@vercel/next"
-    }
+    { "src": "apps/web/package.json", "use": "@vercel/next" }
   ]
 }
