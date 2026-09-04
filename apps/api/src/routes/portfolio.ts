@@ -1,4 +1,8 @@
 import type { FastifyInstance } from 'fastify';
+import { PrismaClient } from '@prisma/client';
+
+
+const prisma = new PrismaClient();
 import { prisma } from '../prisma/client';
 
 export async function portfolioRoutes(app: FastifyInstance) {
@@ -17,6 +21,22 @@ export async function portfolioRoutes(app: FastifyInstance) {
     if (!portfolio) return reply.status(404).send({ error: 'Portfolio not found' });
     return reply.send({ portfolio });
   });
+
+  // GET /api/portfolio/by-github/:githubId — used by NextAuth session callback
+app.get<{ Params: { githubId: string } }>('/by-github/:githubId', async (req, reply) => {
+  const { githubId } = req.params;
+
+  const user = await prisma.user.findUnique({
+    where: { githubId },
+    include: { portfolio: true },
+  });
+
+  if (!user?.portfolio) {
+    return reply.status(404).send({ error: 'Portfolio not found' });
+  }
+
+  return reply.send({ portfolioId: user.portfolio.id });
+});
 
   // POST /api/portfolio — create portfolio for a user
   app.post<{ Body: { githubId: string; username: string; name: string; avatarUrl: string; email: string } }>(

@@ -13,12 +13,11 @@ interface Project {
 
 export default function DashboardPage() {
   const { data: session } = useSession();
-  const [repoUrl, setRepoUrl]     = useState('');
-  const [projects, setProjects]   = useState<Project[]>([]);
-  const [loading, setLoading]     = useState(false);
-  const [error, setError]         = useState('');
+  const [repoUrl, setRepoUrl]   = useState('');
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState('');
 
-  // Fetch existing projects on load
   useEffect(() => {
     if (!session?.username) return;
     fetch(`http://localhost:3001/api/portfolio/${session.username}`)
@@ -71,7 +70,6 @@ export default function DashboardPage() {
       <h1 className="text-2xl font-bold mb-2">Welcome, {session.user?.name}</h1>
       <p className="text-zinc-400 mb-8">Let's build your portfolio.</p>
 
-      {/* Import form */}
       <div className="mb-8">
         <h2 className="text-lg font-semibold mb-3">Add a project</h2>
         <div className="flex gap-3">
@@ -87,13 +85,12 @@ export default function DashboardPage() {
             disabled={loading || !repoUrl.trim()}
             className="bg-white text-black px-5 py-2 rounded-lg text-sm font-medium hover:bg-zinc-100 disabled:opacity-40 transition-colors"
           >
-            {loading ? 'Importing...' : 'Import →'}
+            {loading ? 'Importing...' : 'Import'}
           </button>
         </div>
         {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
       </div>
 
-      {/* Projects list */}
       {projects.length > 0 ? (
         <div>
           <h2 className="text-lg font-semibold mb-3">Your projects</h2>
