@@ -23,4 +23,4 @@ Notes
 
 Link this doc to the issue that tracks enabling branch protection for main: replace ISSUE_URL with the actual issue URL.
 
-- Issue: ISSUE_URL
+- Issue: https://github.com/Pv-Os/hehhi/issues/25
